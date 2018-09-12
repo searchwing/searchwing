@@ -58,7 +58,7 @@ roslaunch apm.launch
     * set start and rewind 
 * start detection
 ```
-roslaunch searchwing startBoatDetection.launch
+roslaunch searchwing startBoatDetection.launch 
 ```
 Now you should see the detections in rviz 
 
