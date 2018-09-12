@@ -21,9 +21,10 @@ To communicate with the SITL ardupilot in ROS
     
 ## Build/integrate src to ros framework
 * create a catkin_workspace to compile the ros-specific code: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
-* git clone this repo to 
+* git clone this repo  
 ```
-/catkin_ws/src/
+cd /catkin_ws/src/
+git clone https://github.com/julled/searchwing.git
 ```
 * Compile/install  
 ``` 
@@ -57,9 +58,9 @@ roslaunch apm.launch
     * set start and rewind 
 * start detection
 ```
-rosrun searchwing publishFakeCameraCalib.py
+roslaunch searchwing startBoatDetection.launch
 ```
-Now you should see the detections in the rviz programm
+Now you should see the detections in rviz 
 
      
 ## Additional stuff
