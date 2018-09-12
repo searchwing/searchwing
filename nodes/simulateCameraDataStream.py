@@ -13,7 +13,7 @@ from cv_bridge import CvBridge, CvBridgeError
 
 #Control the video playback by providing the framenumbers to start and to jump back to start
 videoSettings = rospy.get_param('videoReplaySettings')
-videopath=videoSettings['path'] #"/home/julle/ControlerProjekte/SearchWing/Data/video/TestFlugeBerlin/FILE0018.MOV"
+videopath=videoSettings['path'] 
 startpos =videoSettings['startpos[sek]']*30 # 0*30
 rewindpos = videoSettings['rewindpos[sek]']*30 #13*30
 

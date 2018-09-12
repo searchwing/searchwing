@@ -9,7 +9,7 @@
     <node name="visualization" pkg="rviz" type="rviz" output="screen" args="-d $(find searchwing)/config/droneAllBBFollow.rviz" />
 
     <group ns="videoReplaySettings">
-      <param name="path" value="/home/julle/ControlerProjekte/SearchWing/Data/video/TestFlugeBerlin/FILE0018.MOV" />
+      <param name="path" value="/path/to/video.avi" />
       <param name="startpos[sek]" value="0.0" />
       <param name="rewindpos[sek]" value="13.0" />      
     </group>
