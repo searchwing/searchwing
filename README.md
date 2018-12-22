@@ -1,5 +1,14 @@
 # CV for searchwing drones
 ![alt text](https://raw.githubusercontent.com/julled/searchwing/master/screenshot.jpg)
+* Left: 3D View 
+    * "Cam": 3D-Position and orientation of Camera
+    * Pink points: the visible area in the image
+    * Coordinates: possible tracked boats with their ID
+* Right: 2D View 
+    * Yellow boxes: Regions of Interest(ROIs) in the current image which will be associated to existing trackings
+    * Red boxes: ROIs in the image which are too big
+    * Green crosses: Tracked positions (with ID) which got recognized over several frames and therefore considered as boats 
+    * Blue crosses: Tracked positions which where created in previous frames
 ## Install dependencies
 ### Python 2.7  
 Install Opencv3 for python 2.7:
@@ -40,15 +49,15 @@ rosbag play bodenSee2018HalfRes.bag --clock --start=0 --rate=2
 ```
 
 * New Terminal: 
-Setup terminal
+Setup terminal:
 ```
 source /catkin_ws/devel/setup.bash
 ```
-Tell ROS to the provided timestamps from the dataset for the internal clock
+Tell ROS to the provided timestamps from the dataset for the internal clock:
 ```
 rosparam set use_sim_time true
 ```
-start boatdetector
+Start boatdetector:
 ```
 roslaunch searchwing bodenseeDataset.launch
 ```
