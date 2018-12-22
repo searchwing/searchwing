@@ -2,7 +2,7 @@
 ![alt text](https://raw.githubusercontent.com/julled/searchwing/master/screenshot.jpg)
 ## Install dependencies
 ### Python 2.7  
-* Opencv3 
+Install Opencv3 for python 2.7:
 ```
 python -m pip install opencv-python
 ```
@@ -11,14 +11,6 @@ ROS handles the communication between the different modules, transforms 3d-data 
 * [Short introduction to ROS](https://courses.cs.washington.edu/courses/cse466/11au/calendar/ros_cc_1_intro-jrsedit.pdf)
 * Install ros-kinetic-desktop for your specific OS: http://wiki.ros.org/kinetic/Installation
 
-### ardupilot
-Simulate a drone with the original firmware as Software in the Loop (SITL)
-* Install: http://ardupilot.org/dev/docs/setting-up-sitl-on-linux.html#clone-ardupilot-repository
-### mavros-package
-To communicate with the SITL ardupilot in ROS
-* Install: http://ardupilot.org/dev/docs/ros-install.html#installing-mavros
-* Test: http://ardupilot.org/dev/docs/ros-sitl.html
-    
 ## Build/integrate src to ros framework
 * create a catkin_workspace to compile the ros-specific code: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
 * git clone this repo  
@@ -32,35 +24,42 @@ cd /catkin_ws
 catkin_make install
 source /catkin_ws/devel/setup.bash
 ```
-## Run 
-1. Start simulated Drone: http://ardupilot.org/dev/docs/plane-sitlmavproxy-tutorial.html
-```
-cd ardupilot/ArduPlane
-sim_vehicle.py --map --console
-wp load ../Tools/autotest/CMAC-circuit.txt
-mode auto
-arm throttle 
-```
-if MAVPROXY window shows warning 
-```
-APM: PreArm: AHRS not healthy Got MAVLink msg: COMMAND_ACK {command : 400, result : 4}
-```
-wait a few more seconds.
+* Download dataset:
+write me to get access to the bodensee-dataset.
 
-2. mavros: http://ardupilot.org/dev/docs/ros-sitl.html
+## Run "detection by tracking" algorithm on the bodensee-dataset
+* New Terminal: Start roscore
 ```
-cd /ardupilot_ws/launch
-roslaunch apm.launch
+roscore
 ```
-3. boatdetector: 
-* change settings in launch/startBoatDetection.launch:
-    * set videofile to play in videoReplaySettings (for example one of the prerecorded drone videos)
-    * set start and rewind 
-* start detection
+
+* New Terminal: Start dataset playbag.
 ```
-roslaunch searchwing startBoatDetection.launch 
+cd datasetDownloadPath
+rosbag play bodenSee2018HalfRes.bag --clock --start=0 --rate=2
 ```
-Now you should see the detections in rviz 
+
+* New Terminal: 
+Setup terminal
+```
+source /catkin_ws/devel/setup.bash
+```
+Tell ROS to the provided timestamps from the dataset for the internal clock
+```
+rosparam set use_sim_time true
+```
+start boatdetector
+```
+roslaunch searchwing bodenseeDataset.launch
+```
+Now you should see the detections in rviz like in the screenshot above.
+
+
+If you want to edit/start/debug the boadDetectorNode.py with a editor, please ensure you run
+```
+rosparam set use_sim_time true
+```
+before you start the editor in the terminal. Also comment out the start of the node in the launch file.
 
      
 ## Additional stuff

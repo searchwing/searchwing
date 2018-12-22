@@ -154,7 +154,7 @@ def drawBoundingBoxesToImg(inpic,boundingBoxes):
     """
     img_bb = inpic.copy()
     for oneBB in boundingBoxes:
-        cv2.rectangle(img_bb, (oneBB[0], oneBB[1]), (oneBB[2], oneBB[3]), (255, 0, 0), 3)
+        cv2.rectangle(img_bb, (oneBB[0], oneBB[1]), (oneBB[2], oneBB[3]), (255, 0, 0), 2)
     return  img_bb
 
 def calc_grad_pic(inPic, ksize, mode):
@@ -264,7 +264,7 @@ def imgProcess2Gradients(inpic, maxPixelVal, gradMode, gradSize, gaussKernelSize
     :return:
     """
     contrasted_img = adjust_contrast_pic(inpic, 1.3, 0)
-    # medianed_img=remove_median(contrasted_img,maxPixelVal)
+    medianed_img=remove_median(contrasted_img,maxPixelVal)
     blurred_pic = gauss_blur_pic(contrasted_img, gaussKernelSize, gausssigmaSize)
     img_grad = calc_grad_pic(blurred_pic, ksize=gradSize, mode=gradMode)  # (blurred_pic)
     return img_grad
@@ -282,21 +282,25 @@ def detectROIs(img, gradSize=1, gaussBlurKernelSize=15, openSize=3):
     img_hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     img_hsv_h, img_hsv_s, img_hsv_v = split_pic(img_hsv)
 
+    #calculate gradients for every channel
     gradMode = "sobel"
-    gradients_a = imgProcess2Gradients(img_hsv_h, 180, gradMode=gradMode, gradSize=gradSize,
+    gradients_h = imgProcess2Gradients(img_hsv_h, 180, gradMode=gradMode, gradSize=gradSize,
                                        gaussKernelSize=gaussBlurKernelSize, gausssigmaSize=0)
-    gradients_b = imgProcess2Gradients(img_hsv_s, 256, gradMode=gradMode, gradSize=gradSize,
+    gradients_s = imgProcess2Gradients(img_hsv_s, 256, gradMode=gradMode, gradSize=gradSize,
                                        gaussKernelSize=gaussBlurKernelSize, gausssigmaSize=0)
-    gradients_c = imgProcess2Gradients(img_hsv_v, 256, gradMode=gradMode, gradSize=gradSize,
+    gradients_v = imgProcess2Gradients(img_hsv_v, 256, gradMode=gradMode, gradSize=gradSize,
                                        gaussKernelSize=gaussBlurKernelSize, gausssigmaSize=0)
 
-    gradients_combined_1 = Add_Pics(gradients_a, gradients_b)
-    gradients_combined_2 = Add_Pics(gradients_combined_1, gradients_c)
+    # weight hue/color gradient by saturation as low saturated pixel have huge hue/color noise
+    gradients_h_weighted = np.uint8(gradients_h * (img_hsv_s * (1.0 / 255)))
 
-    grad_threshed = percentile_threshold_Pic(gradients_combined_2, 99)
+    gradients_combined_1 = Add_Pics(gradients_h_weighted, gradients_s)
+    gradients_combined_2 = Add_Pics(gradients_combined_1, gradients_v)
+
+    grad_threshed = percentile_threshold_Pic(gradients_combined_2, 99.4)
     # img_threshed_denoised = denoise_pic(img_threshed,kernelsize=2,iterations=1)
     img_morph_opened = morph_pic(grad_threshed, openSize, cv2.MORPH_OPEN)  # openSize=2
-    img_dilated = dilate_pic(img_morph_opened, 10)
+    img_dilated = dilate_pic(img_morph_opened, 5)
     contours = getContors_pic(img_dilated)
     boundingBoxes = getBoundingBoxesFromContours(contours)
 

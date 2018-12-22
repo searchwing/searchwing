@@ -8,7 +8,6 @@ project(searchwing)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  mavros
   roscpp
   rospy
   std_msgs
@@ -161,9 +160,8 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
  install(PROGRAMS
-   nodes/boatDetector.py
-   nodes/publishFakeCameraCalib.py
-   nodes/simulateCameraDataStream.py
+   nodes/boatDetectorNode.py
+   nodes/simulateCameraDataStreamNode.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
