@@ -18,7 +18,7 @@ python -m pip install opencv-python
 ### ROS
 ROS handles the communication between the different modules, transforms 3d-data and provides a handy 3d visualization for development
 * [Short introduction to ROS](https://courses.cs.washington.edu/courses/cse466/11au/calendar/ros_cc_1_intro-jrsedit.pdf)
-* Install ros-kinetic-desktop for your specific OS: http://wiki.ros.org/kinetic/Installation
+* Install a ros-desktop-version for your specific OS : http://wiki.ros.org/melodic/Installation
 
 ## Build/integrate src to ros framework
 * create a catkin_workspace to compile the ros-specific code: http://wiki.ros.org/catkin/Tutorials/create_a_workspace
@@ -34,7 +34,7 @@ catkin_make install
 source /catkin_ws/devel/setup.bash
 ```
 * Download dataset:
-write me to get access to the bodensee-dataset.
+https://cloud.hs-augsburg.de/index.php/s/Wye6ZLkNWAmE9Jb?path=%2F
 
 ## Run "detection by tracking" algorithm on the bodensee-dataset
 * New Terminal: Start roscore
@@ -68,7 +68,7 @@ If you want to edit/start/debug the boadDetectorNode.py with a editor, please en
 ```
 rosparam set use_sim_time true
 ```
-before you start the editor in the terminal. Also comment out the start of the node in the launch file.
+before you start the editor in the terminal. Also comment out the start of the node in the bodenseeDataset.launch file.
 
      
 ## Additional stuff
