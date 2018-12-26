@@ -1,7 +1,7 @@
 # CV for searchwing drones
 ![alt text](https://raw.githubusercontent.com/julled/searchwing/master/screenshot.jpg)
 * Left: 3D View 
-    * "Cam": 3D-Position and orientation of Camera
+    * "Cam": 3D-Position and orientation of drone camera
     * Pink points: the visible area in the image
     * Coordinates: possible tracked boats with their ID
 * Right: 2D View 
@@ -49,11 +49,11 @@ rosbag play bodenSee2018HalfRes.bag --clock --start=0 --rate=2
 ```
 
 * New Terminal: 
-Setup terminal:
+Setup environment:
 ```
 source /catkin_ws/devel/setup.bash
 ```
-Tell ROS to the provided timestamps from the dataset for the internal clock:
+Tell ROS to use the provided timestamps from the dataset for the internal clock:
 ```
 rosparam set use_sim_time true
 ```
