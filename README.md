@@ -8,7 +8,7 @@
     * Yellow boxes: Regions of Interest(ROIs) in the current image which will be associated to existing trackings
     * Red boxes: ROIs in the image which are too big
     * Green crosses: Tracked positions (with ID) which got recognized over several frames and therefore considered as boats 
-    * Blue crosses: Tracked positions which where created in previous frames
+    * Blue crosses: Tracked positions which were created in previous frames
 ## Install dependencies
 ### Python 2.7  
 Install Opencv3 for python 2.7:
@@ -33,7 +33,7 @@ cd /catkin_ws
 catkin_make install
 source /catkin_ws/devel/setup.bash
 ```
-* Download dataset:
+* Download the bodenSee2018HalfRes.bag dataset:
 https://cloud.hs-augsburg.de/index.php/s/Wye6ZLkNWAmE9Jb?path=%2F
 
 ## Run "detection by tracking" algorithm on the bodensee-dataset
